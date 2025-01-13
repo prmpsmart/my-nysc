@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Days Remaining Calculator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        background-color: #f4f4f9;
+        color: #333;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+      }
+      .output {
+        margin-top: 20px;
+        font-size: 1.2em;
+      }
+      .highlight {
+        font-weight: bold;
+        color: #2e7d32;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Days Remaining Calculator</h1>
+      <div id="output" class="output">
+        <!-- Output will be displayed here -->
+      </div>
+    </div>
+
+    <script>
+      // JavaScript equivalent of the Python code
+      const today = new Date();
+      const lastDay = new Date(2025, 10, 27); // Last day is November 27, 2025
+
+      const daysNames = {
+        0: "Sunday",
+        1: "Monday",
+        2: "Tuesday",
+        3: "Wednesday",
+        4: "Thursday",
+        5: "Friday",
+        6: "Saturday",
+      };
+
+      function formatDate(date) {
+        const day = date.getDate();
+        const month = date.toLocaleString("default", { month: "long" });
+        const year = date.getFullYear();
+        const suffix = getDaySuffix(day);
+
+        return `${daysNames[date.getDay()]}, ${day}${suffix} ${month} ${year}`;
+      }
+
+      function getDaySuffix(day) {
+        if (day >= 11 && day <= 13) {
+          return "th";
+        }
+        switch (day % 10) {
+          case 1:
+            return "st";
+          case 2:
+            return "nd";
+          case 3:
+            return "rd";
+          default:
+            return "th";
+        }
+      }
+
+      function daysRemaining() {
+        let current = new Date(today);
+        let days = 0;
+
+        while (current <= lastDay) {
+          current.setDate(current.getDate() + 1);
+          days++;
+        }
+        return days;
+      }
+
+      let output = `<p><span class="highlight">As of today:</span> ${formatDate(today)}</p>`;
+
+      function dayRemaining(dayIndex) {
+        let current = new Date(today);
+        let days = 0;
+
+        while (current <= lastDay) {
+          current.setDate(current.getDate() + 1);
+          if (current.getDay() === dayIndex) {
+            days++;
+          }
+        }
+
+        output += `<p><span class="highlight">${daysNames[dayIndex]}s remaining:</span> ${days}</p>`
+        return days;
+      }
+
+      function getDaysNames(days) {
+        return days.map((day) => daysNames[day]).join(", ");
+      }
+
+      const totalDaysRemaining = daysRemaining();
+
+      const mon = 1,
+        tue = 2,
+        wed = 3,
+        thu = 4,
+        fri = 5,
+        sat = 6,
+        sun = 0;
+
+      const monR = dayRemaining(mon);
+      const tueR = dayRemaining(tue);
+      const wedR = dayRemaining(wed);
+      const thuR = dayRemaining(thu);
+      const friR = dayRemaining(fri);
+      const satR = dayRemaining(sat);
+      const sunR = dayRemaining(sun);
+
+      const workDays = tueR + wedR + friR + satR;
+      const leisureDays = monR + sunR;
+      const totalDaysRemaining_ = workDays + thuR + leisureDays;
+
+      output += `
+            <p><span class="highlight">Total days remaining:</span> ${totalDaysRemaining}</p>
+            <p><span class="highlight">Total PPA days remaining:</span> ${workDays}</p>
+            <p><span class="highlight">Total CDS days remaining:</span> ${thuR}</p>
+            <p><span class="highlight">Total FREE days remaining:</span> ${leisureDays}</p>
+            <p><span class="highlight">Total days remaining again:</span> ${totalDaysRemaining_}</p>
+            <p><span class="highlight">Passing out date:</span> ${formatDate(
+              lastDay
+            )}</p>
+            <p><span class="highlight">PPA days:</span> ${getDaysNames([
+              tue,
+              wed,
+              fri,
+              sat,
+            ])}</p>
+            <p><span class="highlight">CDS days:</span> ${daysNames[thu]}</p>
+            <p><span class="highlight">FREE days:</span> ${getDaysNames([
+              sun,
+              mon,
+            ])}</p>
+        `;
+
+      document.getElementById("output").innerHTML = output;
+    </script>
+  </body>
+</html>
