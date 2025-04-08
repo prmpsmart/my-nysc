@@ -46,7 +46,9 @@
     <script>
       // JavaScript equivalent of the Python code
       const today = new Date();
-      const lastDay = new Date(2025, 10, 27); // Last day is November 27, 2025
+      const lastDay = new Date(2025, 10, 26); // Last day is November 26, 2025
+      const popDay = new Date(lastDay);
+      popDay.setDate(lastDay.getDate() - 20);
 
       const daysNames = {
         0: "Sunday",
@@ -96,7 +98,9 @@
 
       let output = `<p><span class="highlight">As of today:</span> ${formatDate(
         today
-      )}</p>`;
+      )}</p>
+        <hr/>
+      `;
 
       function dayRemaining(dayIndex) {
         let current = new Date(today);
@@ -140,14 +144,7 @@
       const totalDaysRemaining_ = workDays + thuR + leisureDays;
 
       output += `
-            <p><span class="highlight">Total days remaining:</span> ${totalDaysRemaining}</p>
-            <p><span class="highlight">Total PPA days remaining:</span> ${workDays}</p>
-            <p><span class="highlight">Total CDS days remaining:</span> ${thuR}</p>
-            <p><span class="highlight">Total FREE days remaining:</span> ${leisureDays}</p>
-            <p><span class="highlight">Total days remaining again:</span> ${totalDaysRemaining_}</p>
-            <p><span class="highlight">Passing out date:</span> ${formatDate(
-              lastDay
-            )}</p>
+            <hr/>
             <p><span class="highlight">PPA days:</span> ${getDaysNames([
               tue,
               wed,
@@ -159,6 +156,19 @@
               sun,
               mon,
             ])}</p>
+            <hr/>
+            <p><span class="highlight">Total days remaining:</span> ${totalDaysRemaining}</p>
+            <p><span class="highlight">Total PPA days remaining:</span> ${workDays}</p>
+            <p><span class="highlight">Total CDS days remaining:</span> ${thuR}</p>
+            <p><span class="highlight">Total FREE days remaining:</span> ${leisureDays}</p>
+            <p><span class="highlight">Total days remaining again:</span> ${totalDaysRemaining_}</p>
+            <hr/>
+            <p><span class="highlight">POP date:</span> ${formatDate(
+              popDay
+            )}</p>
+            <p><span class="highlight">End of service year:</span> ${formatDate(
+              lastDay
+            )}</p>
         `;
 
       document.getElementById("output").innerHTML = output;
