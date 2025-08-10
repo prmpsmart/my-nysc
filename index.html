@@ -90,7 +90,7 @@
         let current = new Date(today);
         let days = 0;
 
-        while (current <= lastDay) {
+        while (current <= popDay) {
           current.setDate(current.getDate() + 1);
           days++;
         }
@@ -107,7 +107,7 @@
         let current = new Date(today);
         let days = 0;
 
-        while (current <= lastDay) {
+        while (current <= popDay) {
           current.setDate(current.getDate() + 1);
           if (current.getDay() === dayIndex) {
             days++;
